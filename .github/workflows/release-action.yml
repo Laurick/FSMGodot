@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Zip Folder
-      run: zip -r ${{ github.event.repository.name }}.zip -r --include="./VSFSM" .
+      run: zip -r ${{ github.event.repository.name }}.zip -r --include="./VSFSM/*" .
 
     - name: Release
       uses: softprops/action-gh-release@v1
