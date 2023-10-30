@@ -1,8 +1,9 @@
 name: Create release
 
 on:
-  branches:
-    - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
