@@ -186,15 +186,15 @@ La función **set_variable** actualiza el valor dado de la variable con nombre *
 
 ---
 
-## Descripción
+## Description
 
 A simple library that implements a finite state machine in Godot. Nothing more, nothing less.
 
-### Uso
+### Use
 
 Import the zip folder from the **AssetLib** tab of godot as if it were an addon. If you have more questions you can go to the [oficial documentation](https://docs.godotengine.org/en/4.x/community/asset_library/using_assetlib.html)
 
-### Como empezar
+### Getting started
 
 The first thing to do is to create states for the machine. This is done by inheriting from the **State** class. Let's take an example:
 
@@ -310,7 +310,7 @@ fsm.state_message.connect(update_label, CONNECT_DEFERRED)
 
 The **state_changed** signal is called when changing from one state to another and the **state_message** signal is executed when needed (defined in the States custom).
 
-### Métodos
+### Methods
 
 #### State
 
