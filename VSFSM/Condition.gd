@@ -13,4 +13,6 @@ var reseteable: bool = true
 var one_shot: bool = false
 
 func _is_fullfilled(value) -> bool:
-	return value_needed == value
+	if (typeof(value) == typeof(value_needed)):
+		return value_needed == value
+	return false
