@@ -77,7 +77,7 @@ Una vez se tengan os estados, crea un nodo "FiniteStateMachine" y referencialo e
 
 func _ready():
 	var stateChill = StateChill.new()
-    var stateSleepy = StateSleepy.new()
+	var stateSleepy = StateSleepy.new()
 	var stateAngry = StateAngry.new()
 	var stateMad = StateMad.new()
 	
@@ -108,11 +108,11 @@ Ten en cuenta que *one_shot* dentro de cada transicion hara que si se elimine si
 
 ```gdscript
 func _ready():
-    var stateChill = StateChill.new()
+	var stateChill = StateChill.new()
 
-    (...)
+	(...)
 
-    fsm.start_FSM(stateChill)
+	fsm.start_FSM(stateChill)
 ```
 
 ### Comunicación
@@ -131,6 +131,13 @@ fsm.state_message.connect(update_label, CONNECT_DEFERRED)
 ```
 
 La señales **state_changed** se llama cuando se cambia de un estado a otro y la señal de **state_message** se ejecuta cuando se necesite ( definida en los States custom )
+
+Esta es la definición de las señales.
+
+```gdscript
+signal state_changed(new_state: State)
+signal state_message(new_state: State, data: Dictionary)
+```
 
 ### Métodos
 
@@ -204,10 +211,10 @@ extends State
 class_name StateSleepy
 
 func _enter_tree():
-    print("I'm sleepy... thanks you don't type anything")
+	print("I'm sleepy... thanks you don't type anything")
 
 func on_enter() -> void:
-    finiteStateMachine.state_message.emit(self, {"message": "I'm sleepy... thanks you don't type anything"})
+	finiteStateMachine.state_message.emit(self, {"message": "I'm sleepy... thanks you don't type anything"})
 ```
 
 This state does not do much, it writes by console and sends a message to the machine when that state is reached. The idea is that much more complex states can be created:
@@ -221,23 +228,23 @@ var timeToTalk = 5.0
 var asked = 0
 
 func _enter_tree():
-    print("All good, don't type")
+	print("All good, don't type")
 
 func on_enter() -> void:
-    asked = 0
-    finiteStateMachine.state_message.emit(self, {"message": "All good, don't type"})
+	asked = 0
+	finiteStateMachine.state_message.emit(self, {"message": "All good, don't type"})
 
 func on_exit() -> void:
-    pass
+	pass
 
 func process(_delta):
-    timeToTalk -= _delta
-    if (timeToTalk < 0):
-        print("How are you?")
-        finiteStateMachine.state_message.emit(self, {"message": "How are you?"})
-        timeToTalk = 5
-        asked += 1
-        self.finiteStateMachine.set_variable("ask", asked)
+	timeToTalk -= _delta
+	if (timeToTalk < 0):
+		print("How are you?")
+		finiteStateMachine.state_message.emit(self, {"message": "How are you?"})
+		timeToTalk = 5
+		asked += 1
+		self.finiteStateMachine.set_variable("ask", asked)
 ```
 
 Once you have the states, create a **FiniteStateMachine** node and reference it in the script you want. Now you can add each state to the machine and the condition that is needed to go to the next state. The conditions have several attributes that compose it:
@@ -254,43 +261,43 @@ Once you have the states, create a **FiniteStateMachine** node and reference it 
 @onready var fsm:FiniteStateMachine = $FiniteStateMachine
 
 func _ready():
-    var stateChill = StateChill.new()
-    var stateSleepy = StateSleepy.new()
-    var stateAngry = StateAngry.new()
-    var stateMad = StateMad.new()
+	var stateChill = StateChill.new()
+	var stateSleepy = StateSleepy.new()
+	var stateAngry = StateAngry.new()
+	var stateMad = StateMad.new()
 
-    var conditionSilent = Condition.new()
-    conditionSilent.variable_name = "ask"
-    conditionSilent.value_needed = 3
-    conditionSilent.reseteable = true
+	var conditionSilent = Condition.new()
+	conditionSilent.variable_name = "ask"
+	conditionSilent.value_needed = 3
+	conditionSilent.reseteable = true
 
-    var conditionType = Condition.new()
-    conditionType.variable_name = "type"
-    conditionType.value_needed = true
-    conditionType.reseteable = true
+	var conditionType = Condition.new()
+	conditionType.variable_name = "type"
+	conditionType.value_needed = true
+	conditionType.reseteable = true
 
-    var conditionChill = Condition.new()
-    conditionChill.variable_name = "timeout"
-    conditionChill.value_needed = true
-    conditionChill.reseteable = true
+	var conditionChill = Condition.new()
+	conditionChill.variable_name = "timeout"
+	conditionChill.value_needed = true
+	conditionChill.reseteable = true
 
-    stateChill.add_transition(stateSleepy, [conditionSilent], true)
-    stateChill.add_transition(stateAngry, [conditionType], true)
-    stateAngry.add_transition(stateMad, [conditionType], true)
-    stateAngry.add_transition(stateChill, [conditionChill], true)
-    stateMad.add_transition(stateChill, [conditionChill], true)
-    stateSleepy.add_transition(stateAngry, [conditionType], true) 
+	stateChill.add_transition(stateSleepy, [conditionSilent], true)
+	stateChill.add_transition(stateAngry, [conditionType], true)
+	stateAngry.add_transition(stateMad, [conditionType], true)
+	stateAngry.add_transition(stateChill, [conditionChill], true)
+	stateMad.add_transition(stateChill, [conditionChill], true)
+	stateSleepy.add_transition(stateAngry, [conditionType], true) 
 ```
 
 Note that *one_shot* within each transition will cause it to be removed if it navigates to the target node. Now you can start the state machine with the **start_FSM** method and the start state of your choice.
 
 ```gdscript
 func _ready():
-    var stateChill = StateChill.new()
+	var stateChill = StateChill.new()
 
-    (...)
+	(...)
 
-    fsm.start_FSM(stateChill)
+	fsm.start_FSM(stateChill)
 ```
 
 ### Comunicación
@@ -309,6 +316,13 @@ fsm.state_message.connect(update_label, CONNECT_DEFERRED)
 ```
 
 The **state_changed** signal is called when changing from one state to another and the **state_message** signal is executed when needed (defined in the States custom).
+
+These are the signals defnition.
+
+```gdscript
+signal state_changed(new_state: State)
+signal state_message(new_state: State, data: Dictionary)
+```
 
 ### Methods
 

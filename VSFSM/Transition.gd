@@ -25,7 +25,7 @@ func _reset_and_clear_conditions(variables: Dictionary):
 	var indexes_to_remove = []
 	for index in range(len(conditions_to_transition)):
 		var condition:Condition = conditions_to_transition[index]
-		if condition._is_fullfilled(variables) and condition.one_shot:
+		if condition._is_fullfilled(variables.get(condition.variable_name)) and condition.one_shot:
 			indexes_to_remove
 		elif condition.reseteable: 
 			variables[condition.variable_name] = null
